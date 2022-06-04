@@ -70,7 +70,9 @@ function VQAInputScreen(props: any) {
 
   // TODO: API 연결하기
   const onSubmit = handleSubmit(async (data) => {
-    const base64image = imageSrc.replace('data:image/jpeg;base64,', '')
+    
+    const base64image = imageSrc.slice(imageSrc.indexOf(',') + 1)
+    console.log(base64image)
     const { serverUrl } = url
     const res = (await axios.post(serverUrl, {
       base64image,
