@@ -13,19 +13,35 @@ import Hero from './components/Hero'
 import VQAInputScreen from './components/Input/VQAInput'
 import VQAOutPutScreen from './components/Output/VQAOutPut'
 
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Header />
-    <Hero />
-    <HStack
-      divider={<StackDivider borderColor='gray.200'/>}
-      spacing={4}
-      alignItems='flex-start'
-      mx='118px'
-      mb={8}
-    >
-      <VQAInputScreen />
-      <VQAOutPutScreen />
-    </HStack>
-  </ChakraProvider>
-)
+export const App = () => {
+  const [vqaResult, setVqaResult] = React.useState({
+    MCAoAN: {
+      oriQuestion: "",
+      oriImage: "",
+      questionData: [],
+      boxedImage: "",
+      importantBoxes: [],
+      answer: "",
+    }
+  })
+  return (
+    <ChakraProvider theme={theme}>
+      <Header />
+      <Hero />
+      <HStack
+        divider={<StackDivider borderColor='gray.200'/>}
+        spacing={4}
+        alignItems='flex-start'
+        mx='118px'
+        mb={8}
+      >
+        <VQAInputScreen 
+          setVqaResult={setVqaResult}
+        />
+        <VQAOutPutScreen
+          vqaResult={vqaResult}
+        />
+      </HStack>
+    </ChakraProvider>
+  )
+}

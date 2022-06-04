@@ -26,7 +26,8 @@ type FormValues = {
   question: string
 }
 
-function VQAInputScreen() {
+function VQAInputScreen(props: any) {
+  const { setVqaResult } = props
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
 
   const [loading, setLoading] = useState(false)
@@ -71,9 +72,19 @@ function VQAInputScreen() {
   const onSubmit = handleSubmit(async (data) => {
     const base64image = imageSrc.replace('data:image/jpeg;base64,', '')
     const { serverUrl } = url
-    const res = await axios.post(serverUrl, {
+    const res = (await axios.post(serverUrl, {
       base64image,
       question: data.question,
+    })).data
+    setVqaResult({
+      MCAoAN: {
+        oriQuestion: res.ori_question,
+        oriImage: res.ori_image,
+        questionData: res.question_data,
+        boxedImage: res.boxed_image,
+        importantBoxes: res.important_boxes,
+        answer: res.answer,
+      }
     })
     // const res = await axios.get('http://google.com')
     console.log(res)
