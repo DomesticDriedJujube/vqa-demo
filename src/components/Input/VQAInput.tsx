@@ -15,6 +15,7 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { Icon } from '@chakra-ui/icons'
 import { FiFile } from 'react-icons/fi'
+import url from './url.json'
 
 /* Internal dependencies */
 import ImageUpload from './ImageUpload'
@@ -30,9 +31,6 @@ function VQAInputScreen() {
 
   const [loading, setLoading] = useState(false)
   const [imageSrc, setImageSrc] = useState('')
-
-  // TODO: API 연결하기
-  const onSubmit = handleSubmit((data) => console.log('On Submit: ', data.file, data.question))
 
   const encodeFileToBase64 = (file: File) => {
     setLoading(true)
@@ -68,6 +66,18 @@ function VQAInputScreen() {
     imageSrc,
     loading
   ])
+
+  // TODO: API 연결하기
+  const onSubmit = handleSubmit(async (data) => {
+    const base64image = imageSrc.replace('data:image/jpeg;base64,', '')
+    const { serverUrl } = url
+    const res = await axios.post(serverUrl, {
+      base64image,
+      question: data.question,
+    })
+    // const res = await axios.get('http://google.com')
+    console.log(res)
+  })
 
   return (
     <Container>
