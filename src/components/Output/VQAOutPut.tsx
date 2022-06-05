@@ -5,13 +5,15 @@ import {
   Heading,
   Text,
   VStack,
-  Image, Grid, GridItem
+  Image,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react'
 import { useMemo, } from 'react'
 import VqaResultProps, { ImportantBoxProps } from '../../types/VqaResult.types'
-import QuestionDataTable from './QuestionDataTable'
 import { WarningTwoIcon } from '@chakra-ui/icons'
 import ModelRadioButton from './ModelRadioButton'
+import QuestionDataTable from './QuestionDataTable'
 
 const Base64toImg = (
   imageData: string,
@@ -62,7 +64,7 @@ function VQAOutPutScreen({
           </Box>
 
           <Box>
-            <Heading fontSize='xl' mb={2}>Question Word Data</Heading>
+            <Heading fontSize='xl' mb={4}>Question Word Data</Heading>
             <QuestionDataTable questionData={mcaoanData.questionData} />
           </Box>
 
