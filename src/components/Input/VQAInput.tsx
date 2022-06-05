@@ -72,7 +72,6 @@ function VQAInputScreen(props: any) {
   const onSubmit = handleSubmit(async (data) => {
 
     const base64image = imageSrc.slice(imageSrc.indexOf(',') + 1)
-    console.log(base64image)
     const { serverUrl } = url
     const res = (await axios.post(serverUrl, {
       base64image,
@@ -88,7 +87,6 @@ function VQAInputScreen(props: any) {
         answer: res.answer,
       }
     })
-    console.log(res)
   })
 
   return (

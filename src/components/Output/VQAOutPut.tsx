@@ -5,19 +5,19 @@ import {
   Heading,
   Text,
   VStack,
-  Image, RadioGroup, HStack, Radio
+  Image, Grid, GridItem
 } from '@chakra-ui/react'
-import { useMemo, useState } from 'react'
-import VqaResultProps from '../../types/VqaResult.types'
+import { useMemo, } from 'react'
+import VqaResultProps, { ImportantBoxProps } from '../../types/VqaResult.types'
 import QuestionDataTable from './QuestionDataTable'
 import { WarningTwoIcon } from '@chakra-ui/icons'
-import { ModelName } from '../../constant/modelName'
 import ModelRadioButton from './ModelRadioButton'
 
 const Base64toImg = (
   imageData: string,
+  boxSize?: string,
 ) => (
-  <Image src={`data:image/jpeg;base64,${imageData}`} />
+  <Image boxSize={boxSize} src={`data:image/jpeg;base64,${imageData}`} />
 )
 
 function VQAOutPutScreen({
@@ -82,11 +82,15 @@ function VQAOutPutScreen({
             <Text fontSize='sm' color='gray.500' mb={4}>
               Attention box list which has attention weight more than avg
             </Text>
-            {
-              mcaoanData.importantBoxes.map((boxStr: string)=>(
-                Base64toImg(boxStr)
-              ))
-            }
+            <Grid templateColumns='repeat(3, 2fr)' gap={6}>
+              {
+                mcaoanData.importantBoxes.map((obj: ImportantBoxProps) => (
+                  <GridItem>
+                    { Base64toImg(obj.str, '200px') }
+                  </GridItem>
+                ))
+              }
+            </Grid>
           </Box>
         </VStack>
       </Box>
