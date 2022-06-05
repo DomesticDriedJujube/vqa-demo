@@ -19,6 +19,8 @@ export interface VqaOutPutProps {
 
 interface VqaResultProps {
   MCAoAN: VqaOutPutProps
+  LSTM: VqaOutPutProps
+  SBERT: VqaOutPutProps
 }
 
 export default VqaResultProps

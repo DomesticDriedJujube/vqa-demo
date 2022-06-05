@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Dispatch, useState } from 'react'
 import { Box, HStack, useRadio, useRadioGroup } from '@chakra-ui/react'
 
 import { ModelName } from '../../constant/modelName'
@@ -36,8 +36,15 @@ function RadioCard(props) {
   )
 }
 
-function ModelRadioButton() {
-  const [currentModel, setCurrentModel] = useState(ModelName.MCAoAN)
+interface ModelRadioProps {
+  currentModel: ModelName,
+  setCurrentModel: Dispatch<ModelName>,
+}
+
+function ModelRadioButton({
+  currentModel,
+  setCurrentModel,
+}: ModelRadioProps) {
 
   const modelNameArray = Object.values(ModelName)
 

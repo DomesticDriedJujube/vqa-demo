@@ -1,5 +1,5 @@
 /* External dependencies */
-import { useMemo, useReducer, useState } from 'react'
+import { Dispatch, useMemo, useState } from 'react'
 import {
   Button,
   Flex,
@@ -20,14 +20,20 @@ import url from './url.json'
 /* Internal dependencies */
 import ImageUpload from './ImageUpload'
 import Thumbnail from './Thumbnail'
+import VqaResultProps from '../../types/VqaResult.types'
 
 type FormValues = {
   file: FileList
   question: string
 }
 
-function VQAInputScreen(props: any) {
-  const { setVqaResult } = props
+interface VQAInputProps {
+  setVqaResult: Dispatch<VqaResultProps>
+}
+
+function VQAInputScreen({
+  setVqaResult,
+}: VQAInputProps) {
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
 
   const [loading, setLoading] = useState(false)
@@ -85,6 +91,22 @@ function VQAInputScreen(props: any) {
         boxedImage: res.boxed_image,
         importantBoxes: res.important_boxes,
         answer: res.answer,
+      },
+      LSTM: {
+        oriQuestion: res.ori_question,
+        oriImage: res.ori_image,
+        questionData: res.question_data,
+        boxedImage: res.boxed_image,
+        importantBoxes: res.important_boxes,
+        answer: 'LSTM Test',
+      },
+      SBERT: {
+        oriQuestion: res.ori_question,
+        oriImage: res.ori_image,
+        questionData: res.question_data,
+        boxedImage: res.boxed_image,
+        importantBoxes: res.important_boxes,
+        answer: 'SBERT Test',
       }
     })
   })

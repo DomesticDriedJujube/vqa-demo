@@ -1,4 +1,4 @@
-import { Box, Divider, HStack, Text, VStack } from '@chakra-ui/react'
+import { HStack, Text, VStack } from '@chakra-ui/react'
 import { QuestionDataProps, VqaOutPutProps } from '../../types/VqaResult.types'
 
 type QuestionDataTableType = Pick<VqaOutPutProps, 'questionData'>

@@ -25,6 +25,8 @@ const VqaOutPutInitialState: VqaOutPutProps = {
 
 const VqaResultInitialState : VqaResultProps = {
   MCAoAN: VqaOutPutInitialState,
+  LSTM: VqaOutPutInitialState,
+  SBERT: VqaOutPutInitialState,
 }
 
 export const App = () => {
@@ -46,6 +48,8 @@ export const App = () => {
         />
         <VQAOutPutScreen
           MCAoAN={vqaResult.MCAoAN}
+          LSTM={vqaResult.LSTM}
+          SBERT={vqaResult.SBERT}
         />
       </HStack>
     </ChakraProvider>

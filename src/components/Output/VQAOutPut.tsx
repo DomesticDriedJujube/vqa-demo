@@ -9,11 +9,12 @@ import {
   Grid,
   GridItem,
 } from '@chakra-ui/react'
-import { useMemo, } from 'react'
+import { useMemo, useState } from 'react'
 import VqaResultProps, { ImportantBoxProps } from '../../types/VqaResult.types'
 import { WarningTwoIcon } from '@chakra-ui/icons'
 import ModelRadioButton from './ModelRadioButton'
 import QuestionDataTable from './QuestionDataTable'
+import { ModelName } from '../../constant/modelName'
 
 const Base64toImg = (
   imageData: string,
@@ -24,8 +25,17 @@ const Base64toImg = (
 
 function VQAOutPutScreen({
   MCAoAN,
+  LSTM,
+  SBERT,
 }: VqaResultProps) {
-  const mcaoanData = MCAoAN
+  const [currentModel, setCurrentModel] = useState(ModelName.MCAoAN)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const modelDataKeyMap = {
+    [ModelName.MCAoAN]: MCAoAN,
+    [ModelName.LSTM]: LSTM,
+    [ModelName.SBERT]: SBERT,
+  }
 
   const ResultComponent = useMemo(() => (
     <VStack
@@ -41,39 +51,42 @@ function VQAOutPutScreen({
         <VStack spacing={4} divider={<Divider />} align='stretch'>
           <Box mb={4}>
             <Heading fontSize='2xl' mb={6}>Select Output Model</Heading>
-            <ModelRadioButton />
+            <ModelRadioButton
+              currentModel={currentModel}
+              setCurrentModel={setCurrentModel}
+            />
           </Box>
 
           <Box>
             <Heading fontSize='xl' mb={2}>Question</Heading>
-            <Text fontSize='lg'>{mcaoanData.oriQuestion}</Text>
+            <Text fontSize='lg'>{modelDataKeyMap[currentModel].oriQuestion}</Text>
           </Box>
 
           <Box>
             <Heading fontSize='xl' mb={2}>Answer</Heading>
-            <Text fontSize='lg'>{mcaoanData.answer}</Text>
+            <Text fontSize='lg'>{modelDataKeyMap[currentModel].answer}</Text>
           </Box>
 
           <Box>
             <Heading fontSize='xl' mb={2}>Original Image</Heading>
             {
-              mcaoanData.oriImage !== "" && (
-                Base64toImg(mcaoanData.oriImage)
+              modelDataKeyMap[currentModel].oriImage !== "" && (
+                Base64toImg(modelDataKeyMap[currentModel].oriImage)
               )
             }
           </Box>
 
           <Box>
             <Heading fontSize='xl' mb={4}>Question Word Data</Heading>
-            <QuestionDataTable questionData={mcaoanData.questionData} />
+            <QuestionDataTable questionData={modelDataKeyMap[currentModel].questionData} />
           </Box>
 
           <Box>
             <Heading fontSize='xl' mb={2}>
               Image with attention box
             </Heading>
-            { mcaoanData.boxedImage !== "" && (
-              Base64toImg(mcaoanData.boxedImage)
+            { modelDataKeyMap[currentModel].boxedImage !== "" && (
+              Base64toImg(modelDataKeyMap[currentModel].boxedImage)
             )}
           </Box>
 
@@ -86,7 +99,7 @@ function VQAOutPutScreen({
             </Text>
             <Grid templateColumns='repeat(3, 2fr)' gap={6}>
               {
-                mcaoanData.importantBoxes.map((obj: ImportantBoxProps) => (
+                modelDataKeyMap[currentModel].importantBoxes.map((obj: ImportantBoxProps) => (
                   <GridItem alignContent='center'>
                     { Base64toImg(obj.str, '200px') }
                     <Text fontSize='md' color='gray.600' align='center'>
@@ -100,7 +113,7 @@ function VQAOutPutScreen({
         </VStack>
       </Box>
     </VStack>
-  ), [mcaoanData])
+  ), [currentModel, modelDataKeyMap])
 
   const EmptyInputComponent = useMemo(() => (
     <Box textAlign='center' py={10} px={6}>
