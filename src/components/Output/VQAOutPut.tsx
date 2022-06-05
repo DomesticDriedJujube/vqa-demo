@@ -85,8 +85,11 @@ function VQAOutPutScreen({
             <Grid templateColumns='repeat(3, 2fr)' gap={6}>
               {
                 mcaoanData.importantBoxes.map((obj: ImportantBoxProps) => (
-                  <GridItem>
+                  <GridItem alignContent='center'>
                     { Base64toImg(obj.str, '200px') }
+                    <Text fontSize='md' color='gray.600' align='center'>
+                      {'attention: '}{ obj.att.toFixed(2) }
+                    </Text>
                   </GridItem>
                 ))
               }
