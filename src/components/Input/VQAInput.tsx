@@ -70,7 +70,7 @@ function VQAInputScreen(props: any) {
 
   // TODO: API 연결하기
   const onSubmit = handleSubmit(async (data) => {
-    
+
     const base64image = imageSrc.slice(imageSrc.indexOf(',') + 1)
     console.log(base64image)
     const { serverUrl } = url
@@ -88,7 +88,6 @@ function VQAInputScreen(props: any) {
         answer: res.answer,
       }
     })
-    // const res = await axios.get('http://google.com')
     console.log(res)
   })
 

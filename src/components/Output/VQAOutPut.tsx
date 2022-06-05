@@ -1,72 +1,116 @@
-import { Box, Container, Divider, Heading, Text, VStack } from '@chakra-ui/react'
-import { useMemo } from 'react'
-import _ from 'lodash'
+import {
+  Box,
+  Container,
+  Divider,
+  Heading,
+  Text,
+  VStack,
+  Image, RadioGroup, HStack, Radio
+} from '@chakra-ui/react'
+import { useMemo, useState } from 'react'
+import VqaResultProps from '../../types/VqaResult.types'
+import QuestionDataTable from './QuestionDataTable'
+import { WarningTwoIcon } from '@chakra-ui/icons'
+import { ModelName } from '../../constant/modelName'
+import ModelRadioButton from './ModelRadioButton'
 
-const B64toimg = ({ data }: any) => <img src={`data:image/jpeg;base64,${data}`} />
+const Base64toImg = (
+  imageData: string,
+) => (
+  <Image src={`data:image/jpeg;base64,${imageData}`} />
+)
 
-function VQAOutPutScreen(props: any) {
-  // const mockResult = {
-  //   'model1': 'black',
-  //   'model2': 'black',
-  //   'model3': 'gray',
-  //   'model4': 'black',
-  // }
-  // const resultPairs = _.toPairs(mockResult)
-  const { vqaResult } = props
-  const mcaoanData = vqaResult.MCAoAN
+function VQAOutPutScreen({
+  MCAoAN,
+}: VqaResultProps) {
+  const mcaoanData = MCAoAN
+
   const ResultComponent = useMemo(() => (
     <VStack
-      divider={<Divider />}
+      divider={
+        <Divider />
+      }
     >
-      {
-        <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' style={{ width: '100%' }}>
-          <Box>
-            MCAoAN
+      <Box
+        overflow='hidden'
+        flex='stretch'
+        p={4}
+      >
+        <VStack spacing={4} divider={<Divider />} align='stretch'>
+          <Box mb={4}>
+            <Heading fontSize='2xl' mb={6}>Select Output Model</Heading>
+            <ModelRadioButton />
           </Box>
-          <Box alignSelf={'flex-start'}>
-            <Text fontSize='md'>
-              Question: {mcaoanData.oriQuestion}
-            </Text>
-            <Text fontSize='md'>
-              Answer: {mcaoanData.answer}
-            </Text>
+
+          <Box>
+            <Heading fontSize='xl' mb={2}>Question</Heading>
+            <Text fontSize='lg'>{mcaoanData.oriQuestion}</Text>
+          </Box>
+
+          <Box>
+            <Heading fontSize='xl' mb={2}>Answer</Heading>
+            <Text fontSize='lg'>{mcaoanData.answer}</Text>
+          </Box>
+
+          <Box>
+            <Heading fontSize='xl' mb={2}>Original Image</Heading>
             {
-              mcaoanData.oriImage != "" && <B64toimg data={mcaoanData.oriImage} />
+              mcaoanData.oriImage !== "" && (
+                Base64toImg(mcaoanData.oriImage)
+              )
             }
-            <Text fontSize='md'>
-              Question Data: {mcaoanData.questionData.map((x: any) => `${x.word}(${x.att.toFixed(2)})`).join(' ')}
+          </Box>
+
+          <Box>
+            <Heading fontSize='xl' mb={2}>Question Word Data</Heading>
+            <QuestionDataTable questionData={mcaoanData.questionData} />
+          </Box>
+
+          <Box>
+            <Heading fontSize='xl' mb={2}>
+              Image with attention box
+            </Heading>
+            { mcaoanData.boxedImage !== "" && (
+              Base64toImg(mcaoanData.boxedImage)
+            )}
+          </Box>
+
+          <Box>
+            <Heading fontSize='xl' mb={2}>
+              Important Attention box list
+            </Heading>
+            <Text fontSize='sm' color='gray.500' mb={4}>
+              Attention box list which has attention weight more than avg
             </Text>
-            Image with attention box: {
-              mcaoanData.boxedImage != "" && <B64toimg data={mcaoanData.boxedImage} />
-            }
-            attention box list which has attention weight more than avg
             {
               mcaoanData.importantBoxes.map((boxStr: string)=>(
-                <B64toimg data={boxStr} />
-              )) 
+                Base64toImg(boxStr)
+              ))
             }
           </Box>
-        </Box>
-      }
-      {/* { resultPairs.map(p => {
-        return (
-          <Box alignSelf={'flex-start'}>
-            <Text fontSize='md'>
-              { p[0] }{': '}{ p[1] }
-            </Text>
-          </Box>
-        )
-      })} */}
+        </VStack>
+      </Box>
     </VStack>
   ), [mcaoanData])
-  // ), [resultPairs])
+
+  const EmptyInputComponent = useMemo(() => (
+    <Box textAlign='center' py={10} px={6}>
+      <WarningTwoIcon boxSize='50px' color='orange.300' />
+      <Heading size='lg' mt={6} mb={2}>
+        Please input Image and Question!
+      </Heading>
+    </Box>
+  ), [])
 
   return (
     <Container>
       <Heading fontSize='3xl' mb={8}>
         VQA Result
       </Heading>
-      { ResultComponent }
+      { MCAoAN.answer === ''
+        ? EmptyInputComponent
+        : ResultComponent
+      }
     </Container>
   )
 }
