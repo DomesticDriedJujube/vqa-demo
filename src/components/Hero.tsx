@@ -49,11 +49,12 @@ function Hero() {
             Question Answering
           </Text>
         </Heading>
-        <Text color='gray.500' maxW='3xl' noOfLines={6}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Phasellus eget laoreet felis, eget interdum risus. Nunc a dapibus ex.
-          Sed pellentesque risus ut cursus rhoncus.
-          In tempus facilisis tortor sed eleifend Phasellus condimentum nisi ac neque tempus, sed eleifend risus viverra.
+        <Text color='gray.500' maxW='3xl' noOfLines={3}>
+          본 페이지는 Korea University COSE461 Team 12의 Final Project Demo Page입니다.
+          <Text>
+            본 페이지에서는 LSTM을 기반으로 한 Vanilla VQA부터 SBERT를 기반으로 하는 모델, cross-modal attention method를 적용한
+            MCAoAN 모델에 나누어 VQA task를 test해 볼 수 있습니다.
+          </Text>
         </Text>
         <HStack spacing={8}>
           <Button
