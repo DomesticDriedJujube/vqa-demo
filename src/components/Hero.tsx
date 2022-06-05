@@ -71,7 +71,7 @@ function Hero() {
           <Button
             size='lg'
           >
-            <a href={process.env.PUBLIC_URL + '/sample.pdf'} target='_blank' rel='noreferrer' download>
+            <a href={process.env.PUBLIC_URL + '/NLP_final_project.pdf'} target='_blank' rel='noreferrer' download>
               Paper
             </a>
           </Button>
