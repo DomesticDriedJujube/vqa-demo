@@ -18,7 +18,6 @@ function Hero() {
   };
 
   const handleGitHubLinkClick = () => handleButtonClick(Link.GitHub)
-  const handlePaperLinkClick = () => handleButtonClick(Link.GitHub)
 
   const GitHubIcon = () => (
     <Icon viewBox="0 0 24 24">
@@ -71,9 +70,10 @@ function Hero() {
           </Button>
           <Button
             size='lg'
-            onClick={handlePaperLinkClick}
           >
-            Paper
+            <a href={process.env.PUBLIC_URL + '/sample.pdf'} target='_blank' rel='noreferrer' download>
+              Paper
+            </a>
           </Button>
         </HStack>
       </Stack>
